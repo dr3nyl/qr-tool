@@ -15,6 +15,12 @@ return new class extends Migration
     {
         Schema::create('qr_details', function (Blueprint $table) {
             $table->id();
+            $table->string('part_number');
+            $table->string('date_code');
+            $table->string('vendor_code');
+            $table->string('qr_details');
+            $table->unsignedInteger('created_by');
+            $table->unsignedInteger('isDeleted');
             $table->timestamps();
         });
     }

@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
+            $table->string('qr_scanned');
+            $table->string('scanned_by');
             $table->timestamps();
         });
     }
