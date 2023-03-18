@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('part_number');
             $table->string('date_code');
             $table->string('vendor_code');
-            $table->string('qr_details');
-            $table->unsignedInteger('created_by');
-            $table->unsignedInteger('isDeleted');
+            $table->string('qr_code');
+            $table->string('created_by');
+            $table->boolean('is_deleted')->default(false);
             $table->timestamps();
         });
     }

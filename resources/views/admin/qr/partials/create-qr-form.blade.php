@@ -9,8 +9,10 @@
         </p>
     </header>
 
-    <form method="post" action="" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('admin.qr.store') }}" class="mt-6 space-y-6">
         @csrf
+
+        <x-input-error :messages="$errors->get('qr_code')" class="mt-2" />
 
         <div>
             <x-input-label for="part_number" :value="__('Part Number')" />

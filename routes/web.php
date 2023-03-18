@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Admin\QrController;
+use App\Http\Controllers\Admin\QrDetailController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,7 +28,8 @@ Route::middleware('auth')->group(function () {
         'middleware' => 'is_admin',
         'as' => 'admin.'
     ], function () {
-        Route::get('create', [QrController::class, 'index'])->name('qr.index');
+        Route::get('qr', [QrDetailController::class, 'index'])->name('qr.index');
+        Route::post('qr', [QrDetailController::class, 'store'])->name('qr.store');
     });
 });
 
