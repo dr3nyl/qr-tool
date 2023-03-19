@@ -98,7 +98,8 @@ final class QrGeneratorPageTable extends PowerGridComponent
             ->addColumn('qr_code')
             ->addColumn('created_by')
             ->addColumn('created_at_formatted', fn (QrDetail $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'))
-            ->addColumn('updated_at_formatted', fn (QrDetail $model) => Carbon::parse($model->updated_at)->format('d/m/Y H:i:s'));
+            ->addColumn('updated_at_formatted', fn (QrDetail $model) => Carbon::parse($model->updated_at)->format('d/m/Y H:i:s'))
+            ->addColumn('action');
     }
 
     /*
@@ -118,33 +119,27 @@ final class QrGeneratorPageTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('ID', 'id')
-                ->makeInputRange(),
+            Column::make('ID', 'id'),
 
             Column::make('PART NUMBER', 'part_number')
                 ->sortable()
-                ->searchable()
-                ->makeInputText(),
+                ->searchable(),
 
             Column::make('DATE CODE', 'date_code')
                 ->sortable()
-                ->searchable()
-                ->makeInputText(),
+                ->searchable(),
 
             Column::make('VENDOR CODE', 'vendor_code')
                 ->sortable()
-                ->searchable()
-                ->makeInputText(),
+                ->searchable(),
 
             Column::make('QR CODE', 'qr_code')
                 ->sortable()
-                ->searchable()
-                ->makeInputText(),
+                ->searchable(),
 
             Column::make('CREATED BY', 'created_by')
                 ->sortable()
-                ->searchable()
-                ->makeInputText(),
+                ->searchable(),
 
             Column::make('CREATED AT', 'created_at_formatted', 'created_at')
                 ->searchable()
@@ -174,21 +169,21 @@ final class QrGeneratorPageTable extends PowerGridComponent
      * @return array<int, Button>
      */
 
-    /*
+    
     public function actions(): array
     {
        return [
            Button::make('edit', 'Edit')
-               ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
-               ->route('qr-detail.edit', ['qr-detail' => 'id']),
+               ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm'),
+              // ->route('qr-detail.edit', ['qr-detail' => 'id']),
 
            Button::make('destroy', 'Delete')
                ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
-               ->route('qr-detail.destroy', ['qr-detail' => 'id'])
+               //->route('qr-detail.destroy', ['qr-detail' => 'id'])
                ->method('delete')
         ];
     }
-    */
+    
 
     /*
     |--------------------------------------------------------------------------

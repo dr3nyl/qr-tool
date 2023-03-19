@@ -34,7 +34,10 @@ class QrCreationForm extends Component
         $this->qr_code = $this->part_number.'-'.$this->date_code.'-'.$this->vendor_code;
 
         return [
-            'qr_code' => 'required|min:6'
+            'part_number' => 'required',
+            'date_code' => 'required',
+            'vendor_code' => 'required',
+            'qr_code' => 'required|unique:qr_details,qr_code'
         ];
     }
 
