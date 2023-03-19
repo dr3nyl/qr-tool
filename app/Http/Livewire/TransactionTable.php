@@ -2,14 +2,14 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\QrDetail;
+use App\Models\Transaction;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
 use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Header, PowerGrid, PowerGridComponent, PowerGridEloquent};
 
-final class QrGeneratorPageTable extends PowerGridComponent
+final class TransactionTable extends PowerGridComponent
 {
     use ActionButton;
 
@@ -25,9 +25,9 @@ final class QrGeneratorPageTable extends PowerGridComponent
         $this->showCheckBox();
 
         return [
-            Exportable::make('export')
-                ->striped()
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+            // Exportable::make('export')
+            //     ->striped()
+            //     ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()->showSearchInput(),
             Footer::make()
                 ->showPerPage()
@@ -46,11 +46,11 @@ final class QrGeneratorPageTable extends PowerGridComponent
     /**
     * PowerGrid datasource.
     *
-    * @return Builder<\App\Models\QrDetail>
+    * @return Builder<\App\Models\Transaction>
     */
     public function datasource(): Builder
     {
-        return QrDetail::query();
+        return Transaction::query();
     }
 
     /*
@@ -86,18 +86,15 @@ final class QrGeneratorPageTable extends PowerGridComponent
     {
         return PowerGrid::eloquent()
             ->addColumn('id')
-            ->addColumn('part_number')
+            ->addColumn('qr_scanned')
 
            /** Example of custom column using a closure **/
-            ->addColumn('part_number_lower', function (QrDetail $model) {
-                return strtolower(e($model->part_number));
+            ->addColumn('qr_scanned_lower', function (Transaction $model) {
+                return strtolower(e($model->qr_scanned));
             })
 
-            ->addColumn('date_code')
-            ->addColumn('vendor_code')
-            ->addColumn('qr_code')
-            ->addColumn('created_by')
-            ->addColumn('created_at_formatted', fn (QrDetail $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
+            ->addColumn('scanned_by')
+            ->addColumn('created_at_formatted', fn (Transaction $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
     }
 
     /*
@@ -119,23 +116,11 @@ final class QrGeneratorPageTable extends PowerGridComponent
         return [
             Column::make('ID', 'id'),
 
-            Column::make('PART NUMBER', 'part_number')
+            Column::make('QR SCANNED', 'qr_scanned')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('DATE CODE', 'date_code')
-                ->sortable()
-                ->searchable(),
-
-            Column::make('VENDOR CODE', 'vendor_code')
-                ->sortable()
-                ->searchable(),
-
-            Column::make('QR CODE', 'qr_code')
-                ->sortable()
-                ->searchable(),
-
-            Column::make('CREATED BY', 'created_by')
+            Column::make('SCANNED BY', 'scanned_by')
                 ->sortable()
                 ->searchable(),
 
@@ -157,26 +142,26 @@ final class QrGeneratorPageTable extends PowerGridComponent
     */
 
      /**
-     * PowerGrid QrDetail Action Buttons.
+     * PowerGrid Transaction Action Buttons.
      *
      * @return array<int, Button>
      */
 
-    
+    /*
     public function actions(): array
     {
        return [
            Button::make('edit', 'Edit')
-               ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm'),
-              // ->route('qr-detail.edit', ['qr-detail' => 'id']),
+               ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
+               ->route('transaction.edit', ['transaction' => 'id']),
 
            Button::make('destroy', 'Delete')
                ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
-               //->route('qr-detail.destroy', ['qr-detail' => 'id'])
+               ->route('transaction.destroy', ['transaction' => 'id'])
                ->method('delete')
         ];
     }
-    
+    */
 
     /*
     |--------------------------------------------------------------------------
@@ -187,7 +172,7 @@ final class QrGeneratorPageTable extends PowerGridComponent
     */
 
      /**
-     * PowerGrid QrDetail Action Rules.
+     * PowerGrid Transaction Action Rules.
      *
      * @return array<int, RuleActions>
      */
@@ -199,7 +184,7 @@ final class QrGeneratorPageTable extends PowerGridComponent
 
            //Hide button edit for ID 1
             Rule::button('edit')
-                ->when(fn($qr-detail) => $qr-detail->id === 1)
+                ->when(fn($transaction) => $transaction->id === 1)
                 ->hide(),
         ];
     }

@@ -13,6 +13,9 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <!-- Styles -->
+        @livewireStyles
+        @powerGridStyles
     </head>
     <body class="font-sans text-gray-900 antialiased">
         <div class="min-h-screen xl:justify-center text-center pt-6 xl:pt-0 bg-gray-100 dark:bg-gray-900">
@@ -30,5 +33,8 @@
                 {{ $slot }}
             </main>
         </div>
+        <!-- Scripts -->
+        @livewireScripts
+        @powerGridScripts
     </body>
 </html>
