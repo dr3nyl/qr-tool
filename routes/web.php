@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\QrDetailController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,7 +15,10 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/', function () {
+
+
+Route::get('/', [TransactionController::class, 'index'])->name('home');
+Route::get('/admin', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 

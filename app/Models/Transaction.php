@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Transaction extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'qr_scanned',
+        'scanned_by'
+    ];
 }
