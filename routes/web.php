@@ -4,7 +4,6 @@ use App\Http\Controllers\Admin\QrDetailController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +15,6 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
 
 Route::get('/', [TransactionController::class, 'index'])->name('home');
 Route::get('/admin', function () {
