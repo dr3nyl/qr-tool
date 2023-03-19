@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreQrRequest;
 use App\Models\QrDetail;
 use App\Models\QrDetails;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 
 class QrDetailController extends Controller
@@ -29,4 +30,5 @@ class QrDetailController extends Controller
 
         return redirect()->back();
     }
+    
 }
