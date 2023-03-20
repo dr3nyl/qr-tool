@@ -17,6 +17,14 @@ final class TransactionTable extends PowerGridComponent
 
     protected $listeners = ['refreshTransactions' => '$refresh'];
 
+    protected function getListeners(): array
+    {
+        return array_merge(
+            parent::getListeners(), 
+            [
+                'refreshTransactions' => '$refresh'
+            ]);
+    }
     /*
     |--------------------------------------------------------------------------
     |  Features Setup
