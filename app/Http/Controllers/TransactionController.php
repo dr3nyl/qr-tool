@@ -7,6 +7,8 @@ use App\Models\QrDetail;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
+use Livewire\Component;
+
 class TransactionController extends Controller
 {
     /**
@@ -45,8 +47,7 @@ class TransactionController extends Controller
         ]);
 
         $exists = $this->does_exist($qr_code);
-
-        activity_log('LOGIN');
+        
         return response()->json([
             'qr_code' => $qr_code,
             'exists' => $exists,

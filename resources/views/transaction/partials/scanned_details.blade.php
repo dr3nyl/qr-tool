@@ -38,6 +38,12 @@
                     qr_box.classList.add('text-black');
                 }
                 qr_box.innerHTML = data.qr_code;
+
+                // var powergrid = Livewire.find('transaction-table');
+                // powergrid.refresh();
+                // console.log(powergrid);
+                
+                Livewire.emit('refreshTransactions');
             }
         };
         xhttp.open("POST", qr_transaction.action, true);

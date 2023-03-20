@@ -24,7 +24,7 @@ Route::post('/transact', [TransactionController::class, 'store'])->name('transac
 Route::get('/transactions', [TransactionController::class, 'show'])->name('transact.show');
 
 Route::get('/qrcode', function(){
-    $qrCode = QrCode::format('eps')->size(200)->generate('testtesttest');
+    $qrCode = QrCode::format('svg')->size(200)->generate('testtesttest');
     $response = response($qrCode);
     $fileName = 'qrcode.png';
     return $response;

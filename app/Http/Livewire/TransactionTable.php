@@ -10,9 +10,12 @@ use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
 use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Header, PowerGrid, PowerGridComponent, PowerGridEloquent};
 
+
 final class TransactionTable extends PowerGridComponent
 {
     use ActionButton;
+
+    protected $listeners = ['refreshTransactions' => '$refresh'];
 
     /*
     |--------------------------------------------------------------------------
@@ -52,7 +55,8 @@ final class TransactionTable extends PowerGridComponent
     public function datasource(): Builder
     {
         return Transaction::query()
-            ->where('id', '!=', DB::raw('(SELECT MAX(id) FROM transactions)'));
+            ->where('id', '!=', DB::raw('(SELECT MAX(id) FROM transactions)'))
+            ->orderby('created_at', 'DESC');
     }
 
     /*
