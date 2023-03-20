@@ -23,7 +23,7 @@ final class TransactionTable extends PowerGridComponent
     */
     public function setUp(): array
     {
-        $this->showCheckBox();
+        // $this->showCheckBox();
 
         return [
             // Exportable::make('export')
@@ -87,7 +87,7 @@ final class TransactionTable extends PowerGridComponent
     public function addColumns(): PowerGridEloquent
     {
         return PowerGrid::eloquent()
-            ->addColumn('id')
+            // ->addColumn('id')
             ->addColumn('qr_scanned')
 
            /** Example of custom column using a closure **/
@@ -95,8 +95,8 @@ final class TransactionTable extends PowerGridComponent
                 return strtolower(e($model->qr_scanned));
             })
 
-            ->addColumn('scanned_by')
-            ->addColumn('created_at_formatted', fn (Transaction $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
+            // ->addColumn('scanned_by')
+            ->addColumn('created_at_formatted', fn (Transaction $model) => Carbon::parse($model->created_at)->format('F j, Y H:i:s'));
     }
 
     /*
@@ -116,15 +116,15 @@ final class TransactionTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('ID', 'id'),
+            // Column::make('ID', 'id'),
 
             Column::make('QR SCANNED', 'qr_scanned')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('SCANNED BY', 'scanned_by')
-                ->sortable()
-                ->searchable(),
+            // Column::make('SCANNED BY', 'scanned_by')
+            //     ->sortable()
+            //     ->searchable(),
 
             Column::make('CREATED AT', 'created_at_formatted', 'created_at')
                 ->searchable()

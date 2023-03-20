@@ -1,5 +1,6 @@
 <section>
-    <div id="qr_box" class="mt-1 block w-full text-white text-7xl font-black"></div>
+    <div id="qr_box" class="block w-full text-black dark:text-white text-3xl md:text-7xl font-black text-center whitespace"
+    style="word-wrap:break-word"></div>
     <form id="qr_transaction" method="post" action="{{ route('transact.store') }}" class="mt-6 space-y-6 hidden">
         @csrf
         <x-input-error :messages="$errors->get('qr_details')" class="mt-2" />
@@ -7,32 +8,10 @@
             <x-text-input id="qr_code" name="qr_code" type="text" value='test qr' class="mt-1 block w-full" required autofocus autocomplete="QR Code" />
             <x-input-error class="mt-2" :messages="$errors->get('qr_code')" />
         </div>
-        
-
-        <div class="flex items-center gap-4">
-            @if (session('status') === 'profile-updated')
-                <p
-                    x-data="{ show: true }"
-                    x-show="show"
-                    x-transition
-                    x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-600 dark:text-gray-400"
-                >{{ __('Saved.') }}</p>
-            @endif
-        </div>
     </form>
 </section>
 
 <script type="text/javascript">
-
-    document.onkeypress = function (e) {
-        e = e || window.event;
-        // use e.keyCode
-        console.log(e.keyCode);
-        // if(e.keyCode === 13){
-        //     qr_transact(event);
-        // }
-    };
 
     document.getElementById("qr_transaction").addEventListener("submit", qr_transact);
     var qr_transaction = document.getElementById('qr_transaction');
@@ -49,12 +28,14 @@
                 var data = JSON.parse(xhttp.response);
 
                 if(data.exists == false){
-                    qr_box.classList.remove('text-white');
+                    qr_box.classList.remove('dark:text-white');
+                    qr_box.classList.remove('text-black');
                     qr_box.classList.add('text-red-600');
-                    data.qr_code = data.qr_code + '<br/>[NO QR Record Exists!]';
+                    data.qr_code = data.qr_code + '<br/><span class="text-xl">[No QR Record Exists!]</span>';
                 }else{
                     qr_box.classList.remove('text-red-600');
-                    qr_box.classList.add('text-white');
+                    qr_box.classList.add('dark:text-white');
+                    qr_box.classList.add('text-black');
                 }
                 qr_box.innerHTML = data.qr_code;
             }

@@ -46,6 +46,7 @@ class TransactionController extends Controller
 
         $exists = $this->does_exist($qr_code);
 
+        activity_log('LOGIN');
         return response()->json([
             'qr_code' => $qr_code,
             'exists' => $exists,
