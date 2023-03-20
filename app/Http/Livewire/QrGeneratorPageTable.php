@@ -50,7 +50,7 @@ final class QrGeneratorPageTable extends PowerGridComponent
     */
     public function datasource(): Builder
     {
-        return QrDetail::query();
+        return QrDetail::query()->orderBy('id', 'desc');
     }
 
     /*

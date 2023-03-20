@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Http\Requests\StoreQrRequest;
 use App\Models\QrDetail;
+use Carbon\Carbon;
 use Livewire\Component;
 
 class QrCreationForm extends Component
@@ -25,7 +26,8 @@ class QrCreationForm extends Component
             'date_code' => $this->date_code,
             'vendor_code' => $this->vendor_code,
             'qr_code' => $this->part_number.'-'.$this->date_code.'-'.$this->vendor_code,
-            'created_by' => auth()->user()->name
+            'created_by' => auth()->user()->name,
+            'created_at' => Carbon::now()->toDateTimeString()
         ]);
     }
 

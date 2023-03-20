@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Transaction;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
 use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Header, PowerGrid, PowerGridComponent, PowerGridEloquent};
@@ -50,7 +51,8 @@ final class TransactionTable extends PowerGridComponent
     */
     public function datasource(): Builder
     {
-        return Transaction::query();
+        return Transaction::query()
+            ->where('id', '!=', DB::raw('(SELECT MAX(id) FROM transactions)'));
     }
 
     /*

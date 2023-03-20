@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaction;
 use App\Models\QrDetail;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
@@ -39,7 +40,8 @@ class TransactionController extends Controller
         $qr_code = $request->input('qr_code');
         Transaction::create([
             'qr_scanned' => $qr_code,
-            'scanned_by' => 'ORDINARY'
+            'scanned_by' => 'ORDINARY',
+            'created_at' =>  Carbon::now()->toDateTimeString()
         ]);
 
         $exists = $this->does_exist($qr_code);
