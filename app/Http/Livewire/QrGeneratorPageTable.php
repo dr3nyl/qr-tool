@@ -119,17 +119,17 @@ final class QrGeneratorPageTable extends PowerGridComponent
         return [
             Column::make('ID', 'id'),
 
-            Column::make('PART NUMBER', 'part_number')
-                ->sortable()
-                ->searchable(),
+            // Column::make('PART NUMBER', 'part_number')
+            //     ->sortable()
+            //     ->searchable(),
 
-            Column::make('DATE CODE', 'date_code')
-                ->sortable()
-                ->searchable(),
+            // Column::make('DATE CODE', 'date_code')
+            //     ->sortable()
+            //     ->searchable(),
 
-            Column::make('VENDOR CODE', 'vendor_code')
-                ->sortable()
-                ->searchable(),
+            // Column::make('VENDOR CODE', 'vendor_code')
+            //     ->sortable()
+            //     ->searchable(),
 
             Column::make('QR CODE', 'qr_code')
                 ->sortable()
@@ -166,14 +166,14 @@ final class QrGeneratorPageTable extends PowerGridComponent
     public function actions(): array
     {
        return [
-           Button::make('edit', 'Edit')
-               ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm'),
-              // ->route('qr-detail.edit', ['qr-detail' => 'id']),
+           Button::make('download', 'Download')
+               ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
+               ->route('qrcode.download', ['data' => 'qr_code']),
 
-           Button::make('destroy', 'Delete')
-               ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
-               //->route('qr-detail.destroy', ['qr-detail' => 'id'])
-               ->method('delete')
+        //    Button::make('destroy', 'Delete')
+        //        ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
+        //        //->route('qr-detail.destroy', ['qr-detail' => 'id'])
+        //        ->method('delete')
         ];
     }
     

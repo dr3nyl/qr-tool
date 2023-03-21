@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/qrcode/{data}', [QrDetailController::class, 'download'])->name('qrcode.download');
+
 Route::get('/', [TransactionController::class, 'index'])->name('home');
 Route::get('/admin', function () {
     return view('dashboard');

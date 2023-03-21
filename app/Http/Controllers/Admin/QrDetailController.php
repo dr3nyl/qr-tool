@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreQrRequest;
-use App\Models\QrDetail;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class QrDetailController extends Controller
 {
@@ -15,16 +14,11 @@ class QrDetailController extends Controller
         ]);
     }
 
-    public function store(StoreQrRequest $request)
+    public function download($data)
     {
-        QrDetail::create([
-            'part_number' => request('part_number'),
-            'date_code' => request('date_code'),
-            'vendor_code' => request('vendor_code'),
-            'qr_code' => request('part_number').'-'.request('date_code').'-'.request('vendor_code'),
-            'created_by' => auth()->user()->name
-        ]);
-
-        return redirect()->back();
+        $qrCode = QrCode::format('png')->size(200)->generate($data);
+        $response = response($qrCode)->header('Content-Type', 'image/png');
+        $fileName = 'qrcode.png';
+        return $response->header('Content-Disposition', "attachment; filename=$fileName");
     }
 }
