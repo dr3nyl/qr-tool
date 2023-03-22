@@ -3,15 +3,60 @@
 namespace App\Http\Livewire;
 
 use App\Models\QrDetail;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
 use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Header, PowerGrid, PowerGridComponent, PowerGridEloquent};
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 final class QrGeneratorPageTable extends PowerGridComponent
 {
     use ActionButton;
+
+    protected function getListeners()
+    {
+        return array_merge(
+            parent::getListeners(), [
+                'bulkSoldOutEvent'
+            ]);
+    }
+
+    public function header(): array
+    {
+        return [
+            Button::add('bulk-sold-out')
+                ->caption(__('Print Bulk'))
+                ->class('cursor-pointer block bg-indigo-500 text-white underline')
+                ->emit('bulkSoldOutEvent', [])
+        ];
+    }
+
+    public function bulkSoldOutEvent()
+    {
+        $qrcodes = [];
+
+        if (count($this->checkboxValues) == 0) {
+            $this->dispatchBrowserEvent('showAlert', ['message' => 'You must select at least one item!']);
+
+            return;
+        }
+
+        $result = QrDetail::whereIn('id', $this->checkboxValues)->pluck('qr_code');
+        
+        for ($i=0; $i < count($result); $i++) { 
+            $qrcode = base64_encode(QrCode::format('svg')->size(80)->errorCorrection('H')->generate($result[$i]));
+            $qrcodes[] = ['name' => $result[$i], 'qrcode' => $qrcode];
+        }
+
+        $pdfContent = FacadePdf::loadView('admin.qr.download.pdf-qrcode', ['data' => $qrcodes])->setPaper('A4', 'portrait')->output();
+
+        return response()->streamDownload(
+            fn () => print($pdfContent),
+            "filename.pdf"
+        );
+    }
 
     /*
     |--------------------------------------------------------------------------
@@ -25,9 +70,9 @@ final class QrGeneratorPageTable extends PowerGridComponent
         $this->showCheckBox();
 
         return [
-            Exportable::make('export')
-                ->striped()
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+            // Exportable::make('export')
+            //     ->striped()
+            //     ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()->showSearchInput(),
             Footer::make()
                 ->showPerPage()
