@@ -21,7 +21,7 @@ final class QrGeneratorPageTable extends PowerGridComponent
     {
         return array_merge(
             parent::getListeners(), [
-                'bulkSoldOutEvent',
+                'bulkPrintPdf',
                 'bulkDownloadQR',
                 'bulkDeleteQR',
                 'deleteQR',
@@ -33,10 +33,10 @@ final class QrGeneratorPageTable extends PowerGridComponent
     public function header(): array
     {
         return [
-            Button::add('bulk-sold-out')
+            Button::add('bulk-print-pdf')
                 ->caption(__('Print Selected'))
                 ->class('cursor-pointer block bg-indigo-500 text-white underline')
-                ->emit('bulkSoldOutEvent', []),
+                ->emit('bulkPrintPdf', []),
             Button::add('bulk-download')
                 ->caption(__('Download Selected'))
                 ->class('cursor-pointer block bg-indigo-500 text-white underline')
@@ -81,8 +81,6 @@ final class QrGeneratorPageTable extends PowerGridComponent
         }
 
         $this->deleteQR_confirm($qrcodes);
-
-
         
         return ;
     }
@@ -118,7 +116,7 @@ final class QrGeneratorPageTable extends PowerGridComponent
         return response()->download(public_path($fileName));
     }
 
-    public function bulkSoldOutEvent()
+    public function bulkPrintPdf()
     {
         $qrcodes = [];
 
