@@ -25,7 +25,7 @@ class QrCreationForm extends Component
             'part_number' => $this->part_number,
             'date_code' => $this->date_code,
             'vendor_code' => $this->vendor_code,
-            'qr_code' => $this->part_number.'-'.$this->date_code.'-'.$this->vendor_code,
+            'qr_code' => $this->part_number.' '.$this->date_code.' '.$this->vendor_code,
             'created_by' => auth()->user()->name,
             'created_at' => Carbon::now()->toDateTimeString()
         ]);
@@ -33,7 +33,7 @@ class QrCreationForm extends Component
 
     public function rules()
     {
-        $this->qr_code = $this->part_number.'-'.$this->date_code.'-'.$this->vendor_code;
+        $this->qr_code = $this->part_number.' '.$this->date_code.' '.$this->vendor_code;
 
         return [
             'part_number' => 'required',
