@@ -19,4 +19,22 @@
             </div>
         </div>
     </div>
+
+
+    <script>
+    window.addEventListener('confirm-delete', event => {
+        console.log(event);
+        var qr_details = event.detail;
+        console.log(qr_details);
+        var qr_name = '';
+        if(qr_details.length > 0){
+            for (var i = qr_details.length - 1; i >= 0; i--) {
+                qr_name += i==0?qr_details[i].qr_name:qr_details[i].qr_name+', ';
+            }
+            if(confirm('Confirm delete: ' + qr_name)){
+                Livewire.emit('deleteQR', qr_details);
+            }
+        }
+    })
+    </script>
 </x-app-layout>

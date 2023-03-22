@@ -21,6 +21,8 @@ class QrCreationForm extends Component
 
         $this->emitTo(QrGeneratorPageTable::class, 'pg:eventRefresh-default');
 
+        activity_log('ADDQR', $this->part_number.' '.$this->date_code.' '.$this->vendor_code);
+
         QrDetail::create([
             'part_number' => $this->part_number,
             'date_code' => $this->date_code,

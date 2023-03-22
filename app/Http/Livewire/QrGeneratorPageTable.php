@@ -22,7 +22,11 @@ final class QrGeneratorPageTable extends PowerGridComponent
         return array_merge(
             parent::getListeners(), [
                 'bulkSoldOutEvent',
-                'bulkDownloadQR'
+                'bulkDownloadQR',
+                'bulkDeleteQR',
+                'deleteQR',
+                'deleteQR_confirm',
+                'deleteQR_confirm_single'
             ]);
     }
 
@@ -36,8 +40,51 @@ final class QrGeneratorPageTable extends PowerGridComponent
             Button::add('bulk-download')
                 ->caption(__('Download Selected'))
                 ->class('cursor-pointer block bg-indigo-500 text-white underline')
-                ->emit('bulkDownloadQR', [])
+                ->emit('bulkDownloadQR', []),
+            Button::add('bulk-delete')
+                ->caption(__('Deleted Selected'))
+                ->class('cursor-pointer block bg-indigo-500 text-red underline')
+                ->emit('bulkDeleteQR', [])
         ];
+    }
+
+    public function deleteQR_confirm_single($qr_details){
+        $this->dispatchBrowserEvent('confirm-delete', [$qr_details]);
+        return;
+    }
+
+    public function deleteQR_confirm($qr_details){
+        $this->dispatchBrowserEvent('confirm-delete', $qr_details);
+        return;
+    }
+    public function deleteQR($qr_details){
+        //DELETE
+        $qr_ids = array_column($qr_details, 'qr_id');
+        // dd($qr_details);
+        QrDetail::whereIn('id', $qr_ids)->update(array('is_deleted' => 1));
+        // QrDetail::destroy($qr_ids);
+        activity_log('DELETEQR', implode(', ', array_column($qr_details, 'qr_name')));
+        return;
+    }
+
+    public function bulkDeleteQR(){
+        $qrcodes = [];
+
+        if (count($this->checkboxValues) == 0) {
+            $this->dispatchBrowserEvent('showAlert', ['message' => 'You must select at least one item!']);
+            return;
+        }
+
+        $result = QrDetail::whereIn('id', $this->checkboxValues)->pluck('qr_code','id');
+        foreach ($result as $key => $value) {
+            $qrcodes[] = ['qr_id' => $key, 'qr_name' => $value];
+        }
+
+        $this->deleteQR_confirm($qrcodes);
+
+
+        
+        return ;
     }
 
     public function bulkDownloadQR(){
@@ -54,6 +101,9 @@ final class QrGeneratorPageTable extends PowerGridComponent
             $qrcode = QrCode::format('png')->size(200)->generate($result[$i])->toHtml();
             $qrcodes[] = ['name' => $result[$i], 'qrcode' => $qrcode];
         }
+
+
+        activity_log('DOWNLOADQR', implode(', ', array_column($qrcodes, 'name')));
 
         $zip = new ZipArchive;
         $fileName = 'QR_Codes.zip';
@@ -84,6 +134,8 @@ final class QrGeneratorPageTable extends PowerGridComponent
             $qrcode = base64_encode(QrCode::format('svg')->size(80)->errorCorrection('H')->generate($result[$i]));
             $qrcodes[] = ['name' => $result[$i], 'qrcode' => $qrcode];
         }
+
+        activity_log('PRINTQR', implode(', ', array_column($qrcodes, 'name')));
 
         $pdfContent = FacadePdf::loadView('admin.qr.download.pdf-qrcode', ['data' => $qrcodes])->output();
 
@@ -130,7 +182,7 @@ final class QrGeneratorPageTable extends PowerGridComponent
     */
     public function datasource(): Builder
     {
-        return QrDetail::query()->orderBy('id', 'desc');
+        return QrDetail::query()->where('is_deleted', 0)->orderBy('id', 'desc');
     }
 
     /*
@@ -252,10 +304,11 @@ final class QrGeneratorPageTable extends PowerGridComponent
                ->class('bg-gray-300 dark:bg-gray-300 hover:bg-gray-400 font-bold rounded inline-flex items-center bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
                ->route('qrcode.download', ['data' => 'qr_code']),
 
-        //    Button::make('destroy', 'Delete')
-        //        ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
-        //        //->route('qr-detail.destroy', ['qr-detail' => 'id'])
-        //        ->method('delete')
+           Button::make('destroy', 'DELETE')
+               ->class('cursor-pointer text-red-800 dark:text-red-800 px-3 py-2.5 m-1 rounded text-sm')
+               //->route('qr-detail.destroy', ['qr-detail' => 'id'])
+               // ->method('delete')
+               ->emit('deleteQR_confirm_single', ['qr_id' => 'id', 'qr_name' => 'qr_code'])
         ];
     }
     

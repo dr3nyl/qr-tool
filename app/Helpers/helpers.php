@@ -46,6 +46,9 @@ if (! function_exists('activity_log')) {
             case 'PRINTQR':
                 $activity_msg = 'Printed QR: '.$additional_details;
                 break;
+            case 'DOWNLOADQR':
+                $activity_msg = 'Download QR: '.$additional_details;
+                break;
             case 'CHANGEPASS':
                 $activity_msg = 'Changed Password';
                 break;
