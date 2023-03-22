@@ -1,6 +1,6 @@
 <section>
     <div id="qr_box" class="block w-full text-black dark:text-white text-3xl md:text-7xl font-black text-center whitespace"
-    style="word-wrap:break-word"></div>
+    style="word-wrap:break-word">WAITING FOR SCAN..</div>
     <form id="qr_transaction" method="post" action="{{ route('transact.store') }}" class="mt-6 space-y-6 hidden">
         @csrf
         <x-input-error :messages="$errors->get('qr_details')" class="mt-2" />
