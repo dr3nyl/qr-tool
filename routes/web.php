@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ExportController;
 use App\Http\Controllers\Admin\QrDetailController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TransactionController;
@@ -35,6 +36,8 @@ Route::middleware('auth')->group(function () {
     ], function () {
         Route::get('qr', [QrDetailController::class, 'index'])->name('qr.index');
         Route::post('qr', [QrDetailController::class, 'store'])->name('qr.store');
+
+        Route::get('export', [ExportController::class, 'index'])->name('export');
     });
 });
 
