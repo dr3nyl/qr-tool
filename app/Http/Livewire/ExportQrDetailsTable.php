@@ -85,20 +85,9 @@ final class ExportQrDetailsTable extends PowerGridComponent
     public function addColumns(): PowerGridEloquent
     {
         return PowerGrid::eloquent()
-            ->addColumn('id')
-            ->addColumn('part_number')
-
-           /** Example of custom column using a closure **/
-            ->addColumn('part_number_lower', function (QrDetail $model) {
-                return strtolower(e($model->part_number));
-            })
-
-            ->addColumn('date_code')
-            ->addColumn('vendor_code')
             ->addColumn('qr_code')
             ->addColumn('created_by')
-            ->addColumn('created_at_formatted', fn (QrDetail $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'))
-            ->addColumn('updated_at_formatted', fn (QrDetail $model) => Carbon::parse($model->updated_at)->format('d/m/Y H:i:s'));
+            ->addColumn('created_at_formatted', fn (QrDetail $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
     }
 
     /*
@@ -118,40 +107,16 @@ final class ExportQrDetailsTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('ID', 'id')
-                ->makeInputRange(),
-
-            Column::make('PART NUMBER', 'part_number')
-                ->sortable()
-                ->searchable()
-                ->makeInputText(),
-
-            Column::make('DATE CODE', 'date_code')
-                ->sortable()
-                ->searchable()
-                ->makeInputText(),
-
-            Column::make('VENDOR CODE', 'vendor_code')
-                ->sortable()
-                ->searchable()
-                ->makeInputText(),
 
             Column::make('QR CODE', 'qr_code')
                 ->sortable()
-                ->searchable()
-                ->makeInputText(),
+                ->searchable(),
 
             Column::make('CREATED BY', 'created_by')
                 ->sortable()
-                ->searchable()
-                ->makeInputText(),
+                ->searchable(),
 
             Column::make('CREATED AT', 'created_at_formatted', 'created_at')
-                ->searchable()
-                ->sortable()
-                ->makeInputDatePicker(),
-
-            Column::make('UPDATED AT', 'updated_at_formatted', 'updated_at')
                 ->searchable()
                 ->sortable()
                 ->makeInputDatePicker(),

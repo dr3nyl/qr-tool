@@ -85,7 +85,6 @@ final class ExportTransactionTable extends PowerGridComponent
     public function addColumns(): PowerGridEloquent
     {
         return PowerGrid::eloquent()
-            ->addColumn('id')
             ->addColumn('qr_scanned')
 
            /** Example of custom column using a closure **/
@@ -94,8 +93,7 @@ final class ExportTransactionTable extends PowerGridComponent
             })
 
             ->addColumn('scanned_by')
-            ->addColumn('created_at_formatted', fn (Transaction $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'))
-            ->addColumn('updated_at_formatted', fn (Transaction $model) => Carbon::parse($model->updated_at)->format('d/m/Y H:i:s'));
+            ->addColumn('created_at_formatted', fn (Transaction $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
     }
 
     /*
@@ -115,25 +113,16 @@ final class ExportTransactionTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('ID', 'id')
-                ->makeInputRange(),
 
             Column::make('QR SCANNED', 'qr_scanned')
                 ->sortable()
-                ->searchable()
-                ->makeInputText(),
+                ->searchable(),
 
             Column::make('SCANNED BY', 'scanned_by')
                 ->sortable()
-                ->searchable()
-                ->makeInputText(),
+                ->searchable(),
 
             Column::make('CREATED AT', 'created_at_formatted', 'created_at')
-                ->searchable()
-                ->sortable()
-                ->makeInputDatePicker(),
-
-            Column::make('UPDATED AT', 'updated_at_formatted', 'updated_at')
                 ->searchable()
                 ->sortable()
                 ->makeInputDatePicker(),

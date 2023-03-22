@@ -12,6 +12,7 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
         <!-- Scripts -->
+        <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.5/dist/flowbite.min.css" />
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <!-- Styles -->
         @livewireStyles
@@ -39,5 +40,6 @@
         <!-- Scripts -->
         @livewireScripts
         @powerGridScripts
+        <script src="https://unpkg.com/flowbite@1.5.5/dist/flowbite.js"></script>
     </body>
 </html>
