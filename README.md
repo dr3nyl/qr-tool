@@ -29,7 +29,7 @@ Before you begin, ensure that you have the following software installed on your 
 To clone the project, open a terminal window and navigate to the directory where you want to save the project. Then run the following command:
 
 ```bash
-git clone <project-url>
+git clone https://github.com/dr3nyl/qr-tool.git
 ```
 
 ## Install Dependencies
