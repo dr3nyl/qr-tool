@@ -50,7 +50,7 @@ final class QrGeneratorPageTable extends PowerGridComponent
             $qrcodes[] = ['name' => $result[$i], 'qrcode' => $qrcode];
         }
 
-        $pdfContent = FacadePdf::loadView('admin.qr.download.pdf-qrcode', ['data' => $qrcodes])->setPaper('A4', 'portrait')->output();
+        $pdfContent = FacadePdf::loadView('admin.qr.download.pdf-qrcode', ['data' => $qrcodes])->output();
 
         return response()->streamDownload(
             fn () => print($pdfContent),

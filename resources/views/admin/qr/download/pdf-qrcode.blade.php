@@ -2,7 +2,7 @@
 
     @foreach($data as $key => $value)
 
-        @if ($key % 3 == 0)
+        @if ($key % 4 == 0)
             <tr>
         @endif
 
@@ -11,14 +11,10 @@
             <p>{{ $value['name'] }}</p>
         </td>
 
-        @if (($key + 1) % 3 == 0)
+        @if (($key + 1) % 4 == 0)
             </tr>
         @endif
 
     @endforeach
-
-    @if (($key + 1) % 3 != 0)
-        </tr>
-    @endif
 
 </table>
