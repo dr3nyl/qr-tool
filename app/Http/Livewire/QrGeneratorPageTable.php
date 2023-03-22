@@ -10,6 +10,8 @@ use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
 use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Header, PowerGrid, PowerGridComponent, PowerGridEloquent};
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use ZipArchive;
+
 
 final class QrGeneratorPageTable extends PowerGridComponent
 {
@@ -19,7 +21,8 @@ final class QrGeneratorPageTable extends PowerGridComponent
     {
         return array_merge(
             parent::getListeners(), [
-                'bulkSoldOutEvent'
+                'bulkSoldOutEvent',
+                'bulkDownloadQR'
             ]);
     }
 
@@ -27,10 +30,42 @@ final class QrGeneratorPageTable extends PowerGridComponent
     {
         return [
             Button::add('bulk-sold-out')
-                ->caption(__('Print Bulk'))
+                ->caption(__('Print Selected'))
                 ->class('cursor-pointer block bg-indigo-500 text-white underline')
-                ->emit('bulkSoldOutEvent', [])
+                ->emit('bulkSoldOutEvent', []),
+            Button::add('bulk-download')
+                ->caption(__('Download Selected'))
+                ->class('cursor-pointer block bg-indigo-500 text-white underline')
+                ->emit('bulkDownloadQR', [])
         ];
+    }
+
+    public function bulkDownloadQR(){
+        $qrcodes = [];
+
+        if (count($this->checkboxValues) == 0) {
+            $this->dispatchBrowserEvent('showAlert', ['message' => 'You must select at least one item!']);
+            return;
+        }
+
+        $result = QrDetail::whereIn('id', $this->checkboxValues)->pluck('qr_code');
+        
+        for ($i=0; $i < count($result); $i++) { 
+            $qrcode = QrCode::format('png')->size(200)->generate($result[$i])->toHtml();
+            $qrcodes[] = ['name' => $result[$i], 'qrcode' => $qrcode];
+        }
+
+        $zip = new ZipArchive;
+        $fileName = 'QR_Codes.zip';
+        if ($zip->open(public_path($fileName), ZipArchive::CREATE) === TRUE)
+        {
+            foreach ($qrcodes as $key => $value) {
+                $relativeNameInZipFile = $value['name'].'.png';
+                $zip->addFromString($relativeNameInZipFile,$value['qrcode']);
+            }
+            $zip->close();
+        }
+        return response()->download(public_path($fileName));
     }
 
     public function bulkSoldOutEvent()
@@ -130,7 +165,7 @@ final class QrGeneratorPageTable extends PowerGridComponent
     public function addColumns(): PowerGridEloquent
     {
         return PowerGrid::eloquent()
-            ->addColumn('id')
+            // ->addColumn('id')
             ->addColumn('part_number')
 
            /** Example of custom column using a closure **/
@@ -162,7 +197,7 @@ final class QrGeneratorPageTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('ID', 'id'),
+            // Column::make('ID', 'id'),
 
             // Column::make('PART NUMBER', 'part_number')
             //     ->sortable()
@@ -211,8 +246,10 @@ final class QrGeneratorPageTable extends PowerGridComponent
     public function actions(): array
     {
        return [
-           Button::make('download', 'Download')
-               ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
+           Button::make('download', '
+  <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/><title>Download</title></svg>
+')
+               ->class('bg-gray-300 dark:bg-gray-300 hover:bg-gray-400 font-bold rounded inline-flex items-center bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
                ->route('qrcode.download', ['data' => 'qr_code']),
 
         //    Button::make('destroy', 'Delete')

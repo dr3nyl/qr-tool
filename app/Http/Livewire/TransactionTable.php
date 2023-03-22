@@ -131,7 +131,7 @@ final class TransactionTable extends PowerGridComponent
             // Column::make('ID', 'id'),
 
             Column::make('QR SCANNED', 'qr_scanned')
-                ->sortable()
+                // ->sortable()
                 ->searchable(),
 
             // Column::make('SCANNED BY', 'scanned_by')
@@ -140,8 +140,8 @@ final class TransactionTable extends PowerGridComponent
 
             Column::make('CREATED AT', 'created_at_formatted', 'created_at')
                 ->searchable()
-                ->sortable()
-                ->makeInputDatePicker(),
+                // ->sortable()
+                ->makeInputDatePicker('created_at', ['enableTime' => true]),
 
         ]
 ;
