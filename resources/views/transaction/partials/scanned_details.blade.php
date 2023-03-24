@@ -55,10 +55,17 @@
     }
 
 
-    function encodeUTF8(str) {
-        const encoder = new TextEncoder();
-        const encodedString = encoder.encode(str);
-        return String.fromCharCode(...encodedString);
+    function encodeUTF8(encodedString) {
+        // const encodedString = "ECI-CK-00001-A 2522JTP";
+        const encodedData = new Uint8Array(encodedString.length);
+
+        for (let i = 0; i < encodedString.length; i++) {
+            encodedData[i] = encodedString.charCodeAt(i);
+        }
+
+        const decoder = new TextDecoder("iso-8859-1");
+
+        return decoder.decode(encodedData);
     }
 
     var lastKeyPressTime = 0;
