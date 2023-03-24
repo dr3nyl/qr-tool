@@ -55,6 +55,12 @@
     }
 
 
+    function encodeUTF8(str) {
+        const encoder = new TextEncoder();
+        const encodedString = encoder.encode(str);
+        return String.fromCharCode(...encodedString);
+    }
+
     var lastKeyPressTime = 0;
     var barcode = '';
     document.addEventListener('keydown', function(event) {
@@ -67,12 +73,12 @@
 
       if (event.keyCode == 13) { // check if key code is Enter
         if (barcode.length > 0) { // check if barcode has been scanned
-            qr_code.value = decodeURIComponent(encodeURI(barcode));
+            qr_code.value = encodeUTF8(barcode);
             qr_transact(event);
         }
         barcode = '';
       } else {
-        var char = String.fromCharCode(event.keyCode);
+        var char = encodeUTF8(event.keyCode);
         barcode += char;
       }
 
