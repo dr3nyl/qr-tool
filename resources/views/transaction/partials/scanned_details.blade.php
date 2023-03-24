@@ -67,7 +67,7 @@
 
       if (event.keyCode == 13) { // check if key code is Enter
         if (barcode.length > 0) { // check if barcode has been scanned
-            qr_code.value = barcode;
+            qr_code.value = decodeURIComponent(encodeURI(barcode));
             qr_transact(event);
         }
         barcode = '';
