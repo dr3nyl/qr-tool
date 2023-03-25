@@ -78,3 +78,11 @@ if (! function_exists('activity_log')) {
         ]);
     }
 }
+if (! function_exists('replace_special_chars__')) {
+    //ALLOW Letters and Digits only
+    function replace_special_chars__($string, $subst = '_')
+    {
+        $re = '/[^a-zA-Z0-9]/i';
+        return preg_replace($re, $subst, $string);
+    }
+}

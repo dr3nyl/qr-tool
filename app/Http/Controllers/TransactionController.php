@@ -18,7 +18,8 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        return view('transaction.index');
+        $latest_transaction = Transaction::latest()->pluck('qr_scanned')->first();
+        return view('transaction.index',['latest_transaction' => $latest_transaction]);
     }
 
     /**

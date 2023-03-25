@@ -61,8 +61,8 @@ final class QrGeneratorPageTable extends PowerGridComponent
         //DELETE
         $qr_ids = array_column($qr_details, 'qr_id');
         // dd($qr_details);
-        QrDetail::whereIn('id', $qr_ids)->update(array('is_deleted' => 1));
-        // QrDetail::destroy($qr_ids);
+        // QrDetail::whereIn('id', $qr_ids)->update(array('is_deleted' => 1));
+        QrDetail::destroy($qr_ids);
         activity_log('DELETEQR', implode(', ', array_column($qr_details, 'qr_name')));
         return;
     }
@@ -97,7 +97,7 @@ final class QrGeneratorPageTable extends PowerGridComponent
         
         for ($i=0; $i < count($result); $i++) { 
             $qrcode = QrCode::format('png')->size(200)->generate($result[$i])->toHtml();
-            $qrcodes[] = ['name' => $result[$i], 'qrcode' => $qrcode];
+            $qrcodes[] = ['name' => replace_special_chars__($result[$i]), 'qrcode' => $qrcode];
         }
 
 
@@ -105,7 +105,7 @@ final class QrGeneratorPageTable extends PowerGridComponent
 
         $zip = new ZipArchive;
         $fileName = 'QR_Codes.zip';
-        if ($zip->open(public_path($fileName), ZipArchive::CREATE) === TRUE)
+        if ($zip->open(public_path($fileName), (ZipArchive::CREATE | ZipArchive::OVERWRITE)) === TRUE)
         {
             foreach ($qrcodes as $key => $value) {
                 $relativeNameInZipFile = $value['name'].'.png';
@@ -227,7 +227,7 @@ final class QrGeneratorPageTable extends PowerGridComponent
             ->addColumn('vendor_code')
             ->addColumn('qr_code')
             ->addColumn('created_by')
-            ->addColumn('created_at_formatted', fn (QrDetail $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
+            ->addColumn('created_at_formatted', fn (QrDetail $model) => Carbon::parse($model->created_at)->format('F j, Y h:i:s A'));
     }
 
     /*
@@ -272,7 +272,7 @@ final class QrGeneratorPageTable extends PowerGridComponent
             Column::make('CREATED AT', 'created_at_formatted', 'created_at')
                 ->searchable()
                 ->sortable()
-                ->makeInputDatePicker(),
+                ->makeInputDatePicker('created_at', ['enableTime' => true]),
 
         ]
 ;

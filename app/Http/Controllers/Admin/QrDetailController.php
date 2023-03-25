@@ -18,6 +18,8 @@ class QrDetailController extends Controller
     {
         $qrCode = QrCode::format('png')->size(200)->generate($data);
         $response = response($qrCode)->header('Content-Type', 'image/png');
+
+        $data = replace_special_chars__($data);
         $fileName = $data.'.png';
         
         activity_log('DOWNLOADQR', $data);

@@ -87,7 +87,7 @@ final class ExportQrDetailsTable extends PowerGridComponent
         return PowerGrid::eloquent()
             ->addColumn('qr_code')
             ->addColumn('created_by')
-            ->addColumn('created_at_formatted', fn (QrDetail $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
+            ->addColumn('created_at_formatted', fn (QrDetail $model) => Carbon::parse($model->created_at)->format('F j, Y h:i:s A'));
     }
 
     /*
@@ -119,7 +119,7 @@ final class ExportQrDetailsTable extends PowerGridComponent
             Column::make('CREATED AT', 'created_at_formatted', 'created_at')
                 ->searchable()
                 ->sortable()
-                ->makeInputDatePicker(),
+                ->makeInputDatePicker('created_at', ['enableTime' => true]),
 
         ]
 ;

@@ -1,9 +1,9 @@
 $(document).scannerDetection({
            
       //https://github.com/kabachello/jQuery-Scanner-Detection
-
+        ignoreIfFocusOn: 'input',
         timeBeforeScanTest: 200, // wait for the next character for upto 200ms
-        avgTimeByChar: 40, // it's not a barcode if a character takes longer than 100ms
+        avgTimeByChar: 400, // it's not a barcode if a character takes longer than 100ms
         preventDefault: true,
 
         endChar: [13],

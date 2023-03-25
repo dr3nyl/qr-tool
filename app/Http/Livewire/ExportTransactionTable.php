@@ -93,7 +93,7 @@ final class ExportTransactionTable extends PowerGridComponent
             })
 
             ->addColumn('scanned_by')
-            ->addColumn('created_at_formatted', fn (Transaction $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
+            ->addColumn('created_at_formatted', fn (Transaction $model) => Carbon::parse($model->created_at)->format('F j, Y h:i:s A'));
     }
 
     /*
@@ -125,7 +125,7 @@ final class ExportTransactionTable extends PowerGridComponent
             Column::make('CREATED AT', 'created_at_formatted', 'created_at')
                 ->searchable()
                 ->sortable()
-                ->makeInputDatePicker(),
+                ->makeInputDatePicker('created_at', ['enableTime' => true]),
 
         ]
 ;
