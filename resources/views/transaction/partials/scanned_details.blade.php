@@ -10,86 +10,106 @@
         </div>
     </form>
 </section>
+        @vite(['resources/js/jquery.min.js','resources/js/jquery.scannerdetection.js','resources/js/scanner_function.js'])
+<script type="text/javascript" charset="UTF-8">
 
-<script type="text/javascript">
+    // $(document).scannerDetection({
+           
+    //   //https://github.com/kabachello/jQuery-Scanner-Detection
 
-    document.getElementById("qr_transaction").addEventListener("submit", qr_transact);
-    var qr_transaction = document.getElementById('qr_transaction');
-    var qr_code = document.getElementById('qr_code');
-    var qr_box = document.getElementById("qr_box");
+    //     timeBeforeScanTest: 200, // wait for the next character for upto 200ms
+    //     avgTimeByChar: 40, // it's not a barcode if a character takes longer than 100ms
+    //     preventDefault: true,
 
-    function qr_transact(event){
-        const formData = new FormData(qr_transaction);
-        console.log(formData);
-        var xhttp = new XMLHttpRequest();
-        xhttp.onload = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                console.log(xhttp);
-                var data = JSON.parse(xhttp.response);
+    //     endChar: [13],
+    //         onComplete: function(barcode, qty){
+    //    validScan = true;
+       
+       
+    //         $('#scannerInput').val (barcode);
+        
+    //     } // main callback function ,
+    //     ,
+    //     onError: function(string, qty) {
 
-                if(data.exists == false){
-                    qr_box.classList.remove('dark:text-white');
-                    qr_box.classList.remove('text-black');
-                    qr_box.classList.add('text-red-600');
-                    data.qr_code = data.qr_code + '<br/><span class="text-xl">[No QR Record Exists!]</span>';
-                }else{
-                    qr_box.classList.remove('text-red-600');
-                    qr_box.classList.add('dark:text-white');
-                    qr_box.classList.add('text-black');
-                }
-                qr_box.innerHTML = data.qr_code;
+    //     $('#qr_box').val ($('#qr_box').val()  + string);
 
-                // var powergrid = Livewire.find('transaction-table');
-                // powergrid.refresh();
-                // console.log(powergrid);
+        
+    //     }
+        
+        
+    // });
+
+    // document.getElementById("qr_transaction").addEventListener("submit", qr_transact);
+    // var qr_transaction = document.getElementById('qr_transaction');
+    // var qr_code = document.getElementById('qr_code');
+    // var qr_box = document.getElementById("qr_box");
+
+    // function qr_transact(event){
+    //     const formData = new FormData(qr_transaction);
+    //     console.log(formData);
+    //     var xhttp = new XMLHttpRequest();
+    //     xhttp.onload = function() {
+    //         if (this.readyState == 4 && this.status == 200) {
+    //             console.log(xhttp);
+    //             var data = JSON.parse(xhttp.response);
+
+    //             if(data.exists == false){
+    //                 qr_box.classList.remove('dark:text-white');
+    //                 qr_box.classList.remove('text-black');
+    //                 qr_box.classList.add('text-red-600');
+    //                 data.qr_code = data.qr_code + '<br/><span class="text-xl">[No QR Record Exists!]</span>';
+    //             }else{
+    //                 qr_box.classList.remove('text-red-600');
+    //                 qr_box.classList.add('dark:text-white');
+    //                 qr_box.classList.add('text-black');
+    //             }
+    //             qr_box.innerHTML = data.qr_code;
+
+    //             // var powergrid = Livewire.find('transaction-table');
+    //             // powergrid.refresh();
+    //             // console.log(powergrid);
                 
-                Livewire.emit('refreshTransactions');
-            }
-        };
-        xhttp.open("POST", qr_transaction.action, true);
-        // xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhttp.send(formData);
+    //             Livewire.emit('refreshTransactions');
+    //         }
+    //     };
+    //     xhttp.open("POST", qr_transaction.action, true);
+    //     // xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    //     xhttp.send(formData);
 
-        event.preventDefault();
-        return 0;
-    }
+    //     event.preventDefault();
+    //     return 0;
+    // }
 
 
-    function encodeUTF8(encodedString) {
-        // const encodedString = "ECI-CK-00001-A 2522JTP";
-        const encodedData = new Uint8Array(encodedString.length);
+    // var lastKeyPressTime = 0;
+    // var barcode = '';
+    // document.addEventListener('keydown', function(event) {
+    //   var currentTime = new Date().getTime();
+    //   var elapsedTime = currentTime - lastKeyPressTime;
 
-        for (let i = 0; i < encodedString.length; i++) {
-            encodedData[i] = encodedString.charCodeAt(i);
-        }
+    //   if (elapsedTime > 1000) { // assume it's a new barcode if time elapsed between key presses is greater than 100ms
+    //     barcode = '';
+    //   }
 
-        const decoder = new TextDecoder("iso-8859-1");
+    //   if (event.keyCode == 13) { // check if key code is Enter
+    //     if (barcode.length > 0) { // check if barcode has been scanned
+    //         console.log(utf16ToUtf8(barcode));
+    //         qr_box.innerHTML = barcode;
+    //         qr_box.innerHTML += '<br>'+utf16ToUtf8(barcode);
+    //         qr_box.innerHTML += '<br>'+decode_utf8(utf16ToUtf8(barcode));
+    //         qr_box.innerHTML += '<br>'+Utf8ArrayToStr(toUTF8Array(barcode));
+    //         return false;
+    //         qr_code.value = barcode;
+    //         qr_transact(event);
+    //     }
+    //     barcode = '';
+    //   } else {
+    //     var char = String.fromCharCode(event.which);
+    //         console.log(utf16ToUtf8(char));
+    //     barcode += char;
+    //   }
 
-        return decoder.decode(encodedData);
-    }
-
-    var lastKeyPressTime = 0;
-    var barcode = '';
-    document.addEventListener('keydown', function(event) {
-      var currentTime = new Date().getTime();
-      var elapsedTime = currentTime - lastKeyPressTime;
-
-      if (elapsedTime > 1000) { // assume it's a new barcode if time elapsed between key presses is greater than 100ms
-        barcode = '';
-      }
-
-      if (event.keyCode == 13) { // check if key code is Enter
-        if (barcode.length > 0) { // check if barcode has been scanned
-            qr_code.value = encodeUTF8(barcode);
-            qr_transact(event);
-        }
-        barcode = '';
-      } else {
-        var char = encodeUTF8(event.keyCode);
-        barcode += char;
-      }
-
-      lastKeyPressTime = currentTime;
-    });
-
+    //   lastKeyPressTime = currentTime;
+    // });
 </script>
