@@ -30,11 +30,18 @@
       let minutes = now.getMinutes();
       let seconds = now.getSeconds();
 
+      let am_pm = 'AM';
+      if(hours > 11){
+        am_pm = 'PM';
+        if(hours > 12){
+            hours = hours - 12;
+        }
+      }
       hours = hours < 10 ? "0" + hours : hours;
       minutes = minutes < 10 ? "0" + minutes : minutes;
       seconds = seconds < 10 ? "0" + seconds : seconds;
 
-      let time = hours + ":" + minutes + ":" + seconds;
+      let time = hours + ":" + minutes + ":" + seconds + " " + am_pm;
 
       document.getElementById("clock").innerHTML = time;
     }
