@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\QrDetail;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class QrDetailController extends Controller
@@ -14,9 +15,16 @@ class QrDetailController extends Controller
         ]);
     }
 
-    public function download($data)
+    public function download($qr_id)
     {
-        $qrCode = QrCode::format('png')->size(200)->generate($data);
+        if(empty($qr_id)){
+            die('no');
+        }
+        $data = QrDetail::where('id', $qr_id)->pluck('qr_code')->first();
+        if(empty($data)){
+            return false;
+        }
+        $qrCode = QrCode::format('png')->size(200)->margin(1)->errorCorrection('H')->generate($data);
         $response = response($qrCode)->header('Content-Type', 'image/png');
 
         $data = replace_special_chars__($data);

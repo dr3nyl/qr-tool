@@ -96,7 +96,7 @@ final class QrGeneratorPageTable extends PowerGridComponent
         $result = QrDetail::whereIn('id', $this->checkboxValues)->pluck('qr_code');
         
         for ($i=0; $i < count($result); $i++) { 
-            $qrcode = QrCode::format('png')->size(200)->generate($result[$i])->toHtml();
+            $qrcode = QrCode::format('png')->size(200)->margin(1)->errorCorrection('H')->generate($result[$i])->toHtml();
             $qrcodes[] = ['name' => replace_special_chars__($result[$i]), 'qrcode' => $qrcode];
         }
 
@@ -300,7 +300,7 @@ final class QrGeneratorPageTable extends PowerGridComponent
   <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/><title>Download</title></svg>
 ')
                ->class('bg-gray-300 dark:bg-gray-300 hover:bg-gray-400 font-bold rounded inline-flex items-center bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
-               ->route('qrcode.download', ['data' => 'qr_code']),
+               ->route('qrcode.download', ['data' => 'id']),
 
            Button::make('destroy', 'DELETE')
                ->class('cursor-pointer text-red-800 dark:text-red-800 px-3 py-2.5 m-1 rounded text-sm')
