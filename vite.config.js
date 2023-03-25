@@ -7,6 +7,9 @@ export default defineConfig({
             input: [
                 'resources/css/app.css',
                 'resources/js/app.js',
+                'resources/js/jquery.min.js',
+                'resources/js/jquery.scannerdetection.js',
+                'resources/js/scanner_function.js'
             ],
             refresh: true,
         }),
