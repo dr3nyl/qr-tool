@@ -8,5 +8,20 @@
     "file": "assets/app-79f925e5.js",
     "isEntry": true,
     "src": "resources/js/app.js"
+  },
+  "resources/js/jquery.min.js": {
+    "file": "assets/jquery.min-f56ccec4.js",
+    "isEntry": true,
+    "src": "resources/js/jquery.min.js"
+  },
+  "resources/js/jquery.scannerdetection.js": {
+    "file": "assets/jquery.scannerdetection-498fe47e.js",
+    "isEntry": true,
+    "src": "resources/js/jquery.scannerdetection.js"
+  },
+  "resources/js/scanner_function.js": {
+    "file": "assets/scanner_function-aeabdbf4.js",
+    "isEntry": true,
+    "src": "resources/js/scanner_function.js"
   }
 }
