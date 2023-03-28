@@ -9,6 +9,6 @@
 <g transform="matrix(Infinity NaN NaN Infinity 0 0)" id="6eccd1db-9305-4ea9-9ee2-2a8e4c9667da"  >
 </g>
 <g transform="matrix(0.32 0 0 0.32 176.32 134.05)" style="" id="1cc6ef1d-842f-4ff5-a3ae-f2707e784955"  >
-        <text xml:space="preserve" font-family="Arial" font-size="300" font-style="normal" font-weight="900" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(213,11,11); fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-426.2" y="62.83" >J T K</tspan></text>
+        <text xml:space="preserve" font-family="Arial" font-size="200" font-style="normal" font-weight="900" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(213,11,11); fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-326.2" y="62.83" >J T K</tspan></text>
 </g>
 </svg>
