@@ -1,6 +1,6 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-2c03e425.css",
+    "file": "assets/app-75dd67b3.css",
     "isEntry": true,
     "src": "resources/css/app.css"
   },
@@ -20,7 +20,7 @@
     "src": "resources/js/jquery.scannerdetection.js"
   },
   "resources/js/scanner_function.js": {
-    "file": "assets/scanner_function-aeabdbf4.js",
+    "file": "assets/scanner_function-88965024.js",
     "isEntry": true,
     "src": "resources/js/scanner_function.js"
   }
