@@ -10,7 +10,7 @@
         </div>
     </form>
 </section>
-<script src="{{ asset('resources/js/jquery.min.js') }}"></script>
+<!-- <script src="{{ asset('resources/js/jquery.min.js') }}"></script>
 <script src="{{ asset('resources/js/jquery.scannerdetection.js') }}"></script>
-<script src="{{ asset('resources/js/scanner_function.js') }}"></script>
+<script src="{{ asset('resources/js/scanner_function.js') }}"></script> -->
         <!-- @vite(['resources/js/jquery.min.js','resources/js/jquery.scannerdetection.js','resources/js/scanner_function.js']) -->
